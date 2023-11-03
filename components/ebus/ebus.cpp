@@ -13,9 +13,9 @@
  void Ebus::loop() {
    const uint32_t now = millis();
  
-   if (now - this->last_modbus_byte_ > 50) {
+   if (now - this->last_byte_ > 50) {
      this->rx_buffer_.clear();
-     this->last_modbus_byte_ = now;
+     this->last_byte_ = now;
    }
    // stop blocking new send commands after send_wait_time_ ms regardless if a response has been received since then
    if (now - this->last_send_ > send_wait_time_) {
@@ -25,19 +25,19 @@
    while (this->available()) {
      uint8_t byte;
      this->read_byte(&byte);
-     if (this->parse_modbus_byte_(byte)) {
-       this->last_modbus_byte_ = now;
+     if (this->parse_byte_(byte)) {
+       this->last_byte_ = now;
      } else {
        this->rx_buffer_.clear();
      }
    }
  }
  
- bool Ebus::parse_modbus_byte_(uint8_t byte) {
+ bool Ebus::parse_byte_(uint8_t byte) {
    size_t at = this->rx_buffer_.size();
    this->rx_buffer_.push_back(byte);
    const uint8_t *raw = &this->rx_buffer_[0];
-   ESP_LOGV(TAG, "Received Byte  %d (0X%x)", byte, byte);
+   ESP_LOGD(TAG, "Received Byte  %d (0X%x)", byte, byte);
 
    // return false to reset buffer
    return false;
@@ -53,5 +53,5 @@
    return setup_priority::BUS - 1.0f;
  }
  
- }  // namespace modbus
+ }  // namespace ebus
  }  // namespace esphome
