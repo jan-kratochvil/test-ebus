@@ -48,7 +48,7 @@
    ESP_LOGCONFIG(TAG, "  Send Wait Time: %d ms", this->send_wait_time_);
    ESP_LOGCONFIG(TAG, "  CRC Disabled: %s", YESNO(this->disable_crc_));
  }
- float Modbus::get_setup_priority() const {
+ float Ebus::get_setup_priority() const {
    // After UART bus
    return setup_priority::BUS - 1.0f;
  }
