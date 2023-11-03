@@ -43,7 +43,7 @@
    return false;
  }
  
- void Modbus::dump_config() {
+ void Ebus::dump_config() {
    ESP_LOGCONFIG(TAG, "Ebus:");
    ESP_LOGCONFIG(TAG, "  Send Wait Time: %d ms", this->send_wait_time_);
    ESP_LOGCONFIG(TAG, "  CRC Disabled: %s", YESNO(this->disable_crc_));
