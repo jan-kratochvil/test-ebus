@@ -8,16 +8,14 @@
  class Ebus : public uart::UARTDevice, public Component {
   public:
    Ebus() = default;
- 
+
    void setup() override;
- 
    void loop() override;
- 
    void dump_config() override;
- 
    float get_setup_priority() const override;
- 
- 
+
+   uint8_t waiting_for_response{0};
+
   protected:
    bool parse_modbus_byte_(uint8_t byte);
    uint16_t send_wait_time_{250};

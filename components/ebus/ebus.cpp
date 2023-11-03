@@ -33,7 +33,7 @@
    }
  }
  
- bool Modbus::parse_modbus_byte_(uint8_t byte) {
+ bool Ebus::parse_modbus_byte_(uint8_t byte) {
    size_t at = this->rx_buffer_.size();
    this->rx_buffer_.push_back(byte);
    const uint8_t *raw = &this->rx_buffer_[0];
