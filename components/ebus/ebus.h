@@ -7,8 +7,6 @@
  
  class Ebus : public uart::UARTDevice, public Component {
   public:
-   Ebus() = default;
-
    void setup() override;
    void loop() override;
    void dump_config() override;
@@ -19,7 +17,6 @@
   protected:
    bool parse_byte_(uint8_t byte);
    uint16_t send_wait_time_{250};
-   bool disable_crc_;
    std::vector<uint8_t> rx_buffer_;
    uint32_t last_byte_{0};
    uint32_t last_send_{0};

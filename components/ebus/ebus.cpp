@@ -12,6 +12,19 @@
  }
  void Ebus::loop() {
    const uint32_t now = millis();
+
+   //send
+   if (now - this->last_send_ > 1000) {
+     std::vector<uint8_t> data;
+     data.push_back(0x10);
+     data.push_back(0x08);
+     data.push_back(0xb5);
+     data.push_back(0x11);
+     data.push_back(0x01);
+     data.push_back(0x01);
+     data.push_back(0x89);
+     this->send_raw(data);
+   }
  
    if (now - this->last_byte_ > 50) {
      this->rx_buffer_.clear();
@@ -46,11 +59,24 @@
  void Ebus::dump_config() {
    ESP_LOGCONFIG(TAG, "Ebus:");
    ESP_LOGCONFIG(TAG, "  Send Wait Time: %d ms", this->send_wait_time_);
-   ESP_LOGCONFIG(TAG, "  CRC Disabled: %s", YESNO(this->disable_crc_));
  }
  float Ebus::get_setup_priority() const {
    // After UART bus
    return setup_priority::BUS - 1.0f;
+ }
+
+ void Ebus::send_raw(const std::vector<uint8_t> &payload) {
+   if (payload.empty()) {
+     return;
+   }
+ 
+   //auto crc = crc16(payload.data(), payload.size());
+   this->write_array(payload);
+   //this->write_byte(crc & 0xFF);
+   //this->write_byte((crc >> 8) & 0xFF);
+   this->flush();
+   ESP_LOGD(TAG, "Modbus write raw: %s", format_hex_pretty(payload).c_str());
+   last_send_ = millis();
  }
  
  }  // namespace ebus
