@@ -6,7 +6,7 @@ from esphome.const import CONF_ID
 DEPENDENCIES = ['uart']
 
 ebus_ns = cg.esphome_ns.namespace('ebus')
-Ebus = empty_uart_component_ns.class_('Ebus', cg.Component, uart.UARTDevice)
+Ebus = ebus_ns.class_('Ebus', cg.Component, uart.UARTDevice)
 
 CONFIG_SCHEMA = cv.Schema({
     cv.GenerateID(): cv.declare_id(Ebus)
