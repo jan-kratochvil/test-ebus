@@ -11,6 +11,7 @@
    void loop() override;
    void dump_config() override;
    float get_setup_priority() const override;
+   void send_raw(const std::vector<uint8_t> &payload);
 
    uint8_t waiting_for_response{0};
 
